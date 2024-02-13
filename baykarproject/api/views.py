@@ -1,20 +1,50 @@
 from rest_framework import generics
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 
+from django.core.exceptions import ValidationError
+from django.core import validators
+
+from .serializers import RegisterUserSerializer, UserLoginSerializer
+
+# Register user API view
 class UserRegistrationView(generics.CreateAPIView):
-    model = User
+    serializer_class = RegisterUserSerializer
 
-    def post(self, request, *args, **kwargs):
-        email = request.data.get('email')
-        password = request.data.get('password')
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            if not User.objects.filter(email=serializer.validated_data['email'].lower()).exists():
+                serializer.save()
+                return Response({'message': serializer.data['email']}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'message': 'This email address is already taken.'}, status=status.HTTP_400_BAD_REQUEST)
+        else:    
+            return Response({'message': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-        if not email or not password:
-            return Response({'error': 'Email and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
+class UserLoginAPIView(generics.CreateAPIView):
+    serializer_class = UserLoginSerializer
 
-        if User.objects.filter(email=email).exists():
-            return Response({'error': 'Email is already taken.'}, status=status.HTTP_400_BAD_REQUEST)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data.get('email')
+            password = serializer.validated_data.get('password')
 
-        user = User.objects.create_user(email=email, password=password)
-        return Response({'email': user.email}, status=status.HTTP_201_CREATED)
+            # authenticate user
+            user = authenticate(request, username=email, password=password)
+
+
+            if user is not None:
+                # login successful
+                login(request, user)
+                return Response({'message': 'Login successful.'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'message': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({'message': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        

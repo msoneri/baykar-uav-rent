@@ -1,7 +1,7 @@
 {% extends "app/base.html" %}
 
 {% block title %}
-Register
+Sign Up
 {% endblock %}
 
 {% load static %}
@@ -19,30 +19,33 @@ Register
                 <img src="{% static 'images/Baykar-Logo.svg' %}" alt="Baykar Logo" width="205" height="23">
                 <h1 class="text-2xl mt-2 font-semibold">UAV Rental Platform</h1>
             </div>
-            <form id="registrationForm" class="divide-y divide-gray-200">
-                <div class="py-8 text-base leading-6 space-y-4 sm:text-lg sm:leading-7">
+            <form id="registrationForm" class="divide-y divide-gray-200 text-gray-100">
+                <div class="py-8 text-base leading-6 space-y-4 sm:text-md sm:leading-7">
                     <div class="relative">
-                        <input autocomplete="off" id="email" style="background-color: #212d4a;" name="email" type="text" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-rose-600" placeholder="Email address" />
+                        <input autocomplete="off" id="email" style="background-color: #212d4a;" name="email" type="text" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400" placeholder="Email address" />
                         <label for="email" class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Email Address</label>
                     </div>
                     <div class="relative">
-                        <input autocomplete="off" id="password" style="background-color: #212d4a;" name="password" type="password" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-rose-600" placeholder="Password" />
+                        <input autocomplete="off" id="password" style="background-color: #212d4a;" name="password" type="password" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400" placeholder="Password" />
                         <label for="password" class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Password</label>
                     </div>
                     <div class="relative">
-                        <input autocomplete="off" id="confirm_password" style="background-color: #212d4a;" name="confirm_password" type="password" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-rose-600" placeholder="Password" />
+                        <input autocomplete="off" id="confirm_password" style="background-color: #212d4a;" name="confirm_password" type="password" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400" placeholder="Password" />
                         <label for="confirm_password" class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Confirm Password</label>
                     </div>
                     <div class="relative">
-                        <button type="submit" class="bg-blue-500 text-white rounded-md px-2 py-1">Register</button>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-4 py-1 transition-colors">Sign Up</button>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <p class="text-muted">Already have an account? <a href="{% url 'app:login' %}" class="font-weight-bold underline">Sign In</a></p>
                     </div>
                 </div>
-            </form>
 
-            <!-- Messages container -->
-            <div id="messageContainer" style="display: none;">
-                <ul class="messages" id="messagesList"></ul>
-            </div>
+                <!-- Messages container -->
+                <div id="messageContainer" style="display: none;width: 250px">
+                    <ul class="messages" id="messagesList"></ul>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -67,7 +70,6 @@ Register
             }
     
             const data = {
-                username: formData.get('username'),
                 email: formData.get('email'),
                 password: password,
                 confirm_password: confirm_password
@@ -90,7 +92,11 @@ Register
                     }, 1000);
                 } else {
                     const errorData = await response.json();
-                    showMessage('Registration failed.', 'error');
+                    for (const field in errorData.message) {
+                        for (const errorDetail of errorData.message[field]) {
+                            showMessage(`${errorDetail}`, 'error');
+                        }
+                    }
                 }
             } catch (error) {
                 console.error('Error during registration:', error);
