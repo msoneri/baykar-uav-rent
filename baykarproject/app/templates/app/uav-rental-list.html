@@ -33,6 +33,7 @@
                 <table id="dataTable">
                     <thead class="bg-gray-200">
                         <tr>
+                            <th>Rent ID</th>
                             <th>User</th>
                             <th>Email</th>
                             <th>UAV</th>
@@ -83,6 +84,10 @@
                 dataSrc: ''
             },
             columns: [
+                {
+                    data: 'id',
+                    className: 'text-center'
+                },
                 {
                     data: 'user_info',
                     className: 'text-center'
