@@ -22,6 +22,14 @@ Sign Up
             <form id="registrationForm" class="divide-y divide-gray-200 text-gray-100">
                 <div class="py-8 text-base leading-6 space-y-4 sm:text-md sm:leading-7">
                     <div class="relative">
+                        <input autocomplete="off" id="first_name" style="background-color: #212d4a;" name="first_name" type="text" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400" placeholder="First Name" />
+                        <label for="email" class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">First Name</label>
+                    </div>
+                    <div class="relative">
+                        <input autocomplete="off" id="last_name" style="background-color: #212d4a;" name="last_name" type="text" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400" placeholder="Last Name" />
+                        <label for="email" class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Last Name</label>
+                    </div>
+                    <div class="relative">
                         <input autocomplete="off" id="email" style="background-color: #212d4a;" name="email" type="text" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400" placeholder="Email address" />
                         <label for="email" class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Email Address</label>
                     </div>
@@ -71,6 +79,8 @@ Sign Up
     
             const data = {
                 email: formData.get('email'),
+                first_name: formData.get('first_name'),
+                last_name: formData.get('last_name'),
                 password: password,
                 confirm_password: confirm_password
             };

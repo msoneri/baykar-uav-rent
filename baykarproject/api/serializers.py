@@ -4,17 +4,25 @@ from django.core import exceptions
 import django.contrib.auth.password_validation as validators
 from django.contrib.auth import authenticate
 
+from django.contrib.auth.models import User
+from app.models import UAV, UAVRental
+
 class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'password']
+        fields = ['email', 'first_name', 'last_name', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
         email = validated_data['email'].lower()
+        first_name = validated_data['first_name']
+        last_name = validated_data['last_name']
+
         user = User(
             email=email,
             username=email,
+            first_name=first_name,
+            last_name=last_name,
         )
         user.set_password(validated_data['password'])
         user.save()
@@ -51,10 +59,36 @@ class UserLoginSerializer(serializers.Serializer):
         email = data.get('email').lower()
         password = data.get('password')
 
-        user = authenticate(request=self.context.get('request'), username=email, password=password)
-        
+        try:
+            user = authenticate(request=self.context.get('request'), username=User.objects.get(email=email).username, password=password)
+        except:
+            raise serializers.ValidationError('Invalid email or password.')
+
         if not user:
             raise serializers.ValidationError('Invalid email or password.')
 
         data['user'] = user
         return data
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email']
+
+
+class UAVSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    class Meta:
+        model = UAV
+        fields = ['id', 'brand', 'model', 'category', 'weight']
+        datatables_always_serialize = ('id')
+
+
+class UAVRentalSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = UAVRental
+        fields = ['id', 'renter', 'uav', 'user_info', 'user_email', 'uav_info', 'rent_start_date', 'rent_end_date']
+        datatables_always_serialize = ('id')

@@ -1,0 +1,267 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baykar | UAVs List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+
+{% block content %}
+{% include "app/navbar.html" %}
+<div class="container mx-auto mt-8 bg-gray-50 text-gray-900">
+    <h2 class="text-2xl font-semibold m-4">UAV List</h2>
+    <div class="flex flex-col">
+        <div class="w-full">
+            <div class="p-4 border-b border-gray-200 shadow">
+                <table id="uavTable">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th>ID</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Weight</th>
+                            <th>Category</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+                <button id="addUAVBtn" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Add UAV</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="addUAVModal" class="hidden fixed inset-0 bg-black bg-opacity-75 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="p-6 rounded w-96" style="background-color: #142143;">
+            <h2 class="text-xl font-semibold mb-4">Add UAV</h2>
+            <form id="addUAVForm" class="text-gray-50">
+                {% csrf_token %}
+                <label for="brand" class="block text-sm font-medium ">Brand:</label>
+                <input type="text" name="brand" id="brand" class="mt-1 p-2 w-full border rounded"
+                    style="background-color: #212d4a">
+
+                <label for="model" class="block text-sm font-medium mt-4">Model:</label>
+                <input type="text" name="model" id="model" class="mt-1 p-2 w-full border rounded"
+                    style="background-color: #212d4a">
+
+                <label for="weight" class="block text-sm font-medium mt-4">Weight:</label>
+                <input type="number" name="weight" id="weight" class="mt-1 p-2 w-full border rounded"
+                    style="background-color: #212d4a">
+
+                <label for="category" class="block text-sm font-medium mt-4">Category:</label>
+                <select name="category" id="category" class="mt-1 p-2 w-full border rounded"
+                    style="background-color: #212d4a">
+                    <option value="A">Category A</option>
+                    <option value="B">Category B</option>
+                    <option value="C">Category C</option>
+                </select>
+
+                <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Add UAV</button>
+            </form>
+            <button id="closeModalBtn" class="mt-4 px-4 py-2 bg-red-500 text-white rounded">Close</button>
+        </div>
+    </div>
+</div>
+
+<div class="hidden fixed inset-0 bg-black bg-opacity-75 overflow-y-auto" id="editModal">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="p-6 rounded w-96" style="background-color: #142143;">
+            <h2 class="text-xl font-semibold mb-4 text-gray-50">Edit UAV</h2>
+            <form id="editUAVForm" class="text-gray-50">
+                <label for="edit_brand" class="block text-sm font-medium">Brand:</label>
+                <input type="text" name="edit_brand" id="edit_brand" class="mt-1 p-2 w-full border rounded"
+                    style="background-color: #212d4a">
+
+                <label for="edit_model" class="block text-sm font-medium mt-4">Model:</label>
+                <input type="text" name="edit_model" id="edit_model" class="mt-1 p-2 w-full border rounded"
+                    style="background-color: #212d4a">
+
+                <label for="edit_weight" class="block text-sm font-medium mt-4">Weight:</label>
+                <input type="number" name="edit_weight" id="edit_weight" class="mt-1 p-2 w-full border rounded"
+                    style="background-color: #212d4a">
+
+                <label for="edit_category" class="block text-sm font-medium mt-4">Category:</label>
+                <select name="edit_category" id="edit_category" class="mt-1 p-2 w-full border rounded"
+                    style="background-color: #212d4a">
+                    <option value="A">Category A</option>
+                    <option value="B">Category B</option>
+                    <option value="C">Category C</option>
+                </select>
+
+                <button id="saveEditModalBtn" type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+                    onclick="editUAV()">Save Changes</button>
+            </form>
+            <button id="closeEditModalBtn" class="mt-4 px-4 py-2 bg-red-500 text-white rounded">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $('#uavTable').DataTable({
+            ajax: {
+                url: '/api/uav/',
+                dataSrc: ''
+            },
+            columns: [
+                {
+                    data: 'id',
+                    className: 'text-center'
+                },
+                {
+                    data: 'brand',
+                    className: 'text-center'
+                },
+                {
+                    data: 'model',
+                    className: 'text-center'
+                },
+                {
+                    data: 'weight',
+                    className: 'text-center'
+                },
+                {
+                    data: 'category',
+                    className: 'text-center'
+                },
+                {
+                    "render": function (data, type, row) {
+                        return '<button type="button" id="editUAVBtn" class="bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-blue-600" data-bs-target="#editModal" onclick="getData(' + row.id + ')">Edit</button>' +
+                            '&nbsp;&nbsp;' + '<button type="button" class="bg-red-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-red-600" onclick="deleteUAV(' + row.id + ')">Delete</button>';
+                    }
+                }
+            ]
+        });
+
+        $('#addUAVBtn').on('click', function () {
+            $('#addUAVModal').removeClass('hidden');
+        });
+
+        $('#closeModalBtn').on('click', function () {
+            $('#addUAVModal').addClass('hidden');
+        });
+
+        $('#addUAVForm').submit(function (e) {
+            e.preventDefault();
+
+            var formData = {
+                brand: $('#brand').val(),
+                model: $('#model').val(),
+                weight: $('#weight').val(),
+                category: $('#category').val()
+            };
+
+            $.ajax({
+                url: '/api/uav/',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data: formData,
+                success: function (response) {
+                    $('#uavTable').DataTable().ajax.reload();
+
+                    $('#addUAVModal').addClass('hidden');
+                },
+                error: function (error) {
+                    console.error('Error adding UAV:', error);
+                }
+            });
+        });
+    });
+
+    $('#closeEditModalBtn').on('click', function () {
+        $('#editModal').addClass('hidden');
+    });
+
+    function getData(id) {
+        $('#editModal').removeClass('hidden');
+        $('#saveEditModalBtn').attr('onclick', `editUAV(${id})`);
+
+        $.ajax({
+            url: `/api/uav/${id}/`,
+            type: "GET",
+            headers: {
+                'X-CSRFToken': '{{csrf_token}}'
+            },
+            success: function (data, status) {
+                if (status === "success") {
+                    $('#edit_brand').val(data.brand);
+                    $('#edit_model').val(data.model);
+                    $('#edit_category').val(data.category);
+                    $('#edit_weight').val(data.weight);
+                }
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function editUAV(id) {
+        let brand = $('#edit_brand').val();
+        let model = $('#edit_model').val();
+        let category = $('#edit_category').val();
+        let weight = $('#edit_weight').val();
+
+        $.ajax({
+            url: `/api/uav/${id}/`,
+            method: "PUT",
+            headers: {
+                'X-CSRFToken': '{{csrf_token}}'
+            },
+            data: {
+                "brand": brand,
+                "model": model,
+                "category": category,
+                "weight": weight,
+            },
+            success: function (data, status) {
+                $('#editModal').addClass('hidden');
+                $('#uavTable').DataTable().clear().draw();
+            },
+            error: function (error) {
+                console.error("Error:", error);
+            }
+        });
+    }
+
+
+    // deleting a row
+    function deleteUAV(id) {
+        const userConfirmed = window.confirm("Are you sure you want to delete this record?");
+
+        if (userConfirmed) {
+            $.ajax({
+                url: `/api/uav/${id}/`,
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                success: function () {
+                    $('#uavTable').DataTable().ajax.reload();
+                },
+                error: function (error) {
+                    console.error('Error deleting data:', error);
+                }
+            });
+        }
+    }
+</script>
+{% endblock %}
+</html>

@@ -1,20 +1,20 @@
 html {
-    font-size: 16px;
-    background-color: #142143;
-    color: #ffffff;
-  }
-  
-  @media (min-width: 768px) {
-    html {
-      font-size: 16px;
-    }
-  }
+  font-size: 16px;
+  background-color: #142143;
+  color: #ffffff;
+}
 
+@media (min-width: 768px) {
   html {
-    position: relative;
-    min-height: 100%;
+    font-size: 16px;
   }
-  
-  body {
-    margin-bottom: 60px;
-  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}

@@ -1,52 +1,107 @@
 {% load static %}
 
 {% block navbar %}
-  <nav class="flex items-center pt-8 pb-8  w-full px-4 md:px-6 border-b-2 border-gray-100/20">
-      <a href="/">
-        <img src="{% static 'images/Baykar-Logo.svg' %}" alt="Baykar Logo" width="195" height="23">
-      </a>
-      <nav class="flex-1 h-full">
-        <ul class="flex h-full items-center space-x-4">
-          <li class="h-full">
-            <a
-              class="inline-flex h-full items-center rounded-md px-3 pl-12 text-md font-medium transition-colors hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 dark:hover:text-gray-50 dark:focus-visible:ring-gray-200"
-              href="#"
-            >
-              Features
-            </a>
-          </li>
-          <li class="h-full">
-            <a
-              class="inline-flex h-full items-center rounded-md px-3 text-md font-medium transition-colors hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 dark:hover:text-gray-50 dark:focus-visible:ring-gray-200"
-              href="#"
-            >
-              Solutions
-            </a>
-          </li>
-          <li class="h-full">
-            <a
-              class="inline-flex h-full items-center rounded-md px-3 text-md font-medium transition-colors hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 dark:hover:text-gray-50 dark:focus-visible:ring-gray-200"
-              href="#"
-            >
-              Customers
-            </a>
-          </li>
-          <li class="h-full">
-            <a
-              class="inline-flex h-full items-center rounded-md px-3 text-md font-medium transition-colors hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 dark:hover:text-gray-50 dark:focus-visible:ring-gray-200"
-              href="#"
-            >
-              Pricing
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <button class="inline-flex items-center justify-center whitespace-nowrap text-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
-        dark mode
-      </button>
-      <div class="ml-auto">
+<nav id="main-nav" class="flex items-center pt-8 pb-8  w-full px-4 md:px-6 border-b-2 border-gray-100/20">
+  <a href="/">
+    <img src="{% static 'images/Baykar-Logo.svg' %}" alt="Baykar Logo" width="195" height="23">
+  </a>
+  <button id="menu-button"
+    class="inline-flex items-center justify-center ml-auto md:hidden text-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+    Menu
+  </button>
+  <div class="hidden md:flex md:flex-1 h-full pt-4">
+    <ul class="flex h-full items-center space-x-4">
+      <li class="h-full">
+        {% if user.is_staff %}
+        <a class="nav-link inline-flex h-full items-center rounded-md px-3 pl-12 text-md font-medium transition-colors hover:text-gray-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
+          href="/uav-list/">
+          List of UAVs</a>
+        {% else %}
+        <a class="nav-link inline-flex h-full items-center rounded-md px-3 pl-12 text-md font-medium transition-colors hover:text-gray-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
+          href="/rent-uav/">
+          Rent an UAV</a>
+        {% endif %}
+
+      </li>
+      <li class="h-full">
+        <a class="nav-link inline-flex h-full items-center rounded-md px-3 pl-12 text-md font-medium transition-colors hover:text-gray-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
+          href="/uav-rental-list/">
+          {% if user.is_staff %}
+          UAVs Rental Status
+          {% else %}
+          Your Rented UAVs
+          {% endif %}
+        </a>
+      </li>
+    </ul>
+    <div class="ml-auto flex space-x-4">
+      <!-- <div>
         <a href="{% comment %} {% url 'switch_language' 'en' %} {% endcomment %}">English</a> |
         <a href="{% comment %} {% url 'switch_language' 'tr' %} {% endcomment %}">Türkçe</a>
+      </div> -->
+      {% if user.is_authenticated %}
+      <div class="flex flex-col items-center">
+        <form action="/logout/" method="post" id="logout-form">{% csrf_token %}</form>
+        <button
+          class="inline-flex items-center rounded-md px-3 text-md font-medium transition-colors hover:text-gray-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 dark:hover:text-gray-50 dark:focus-visible:ring-gray-200"
+          type="submit" form="logout-form">
+          Logout
+        </button>
+        <span class="text-xs text-gray-300">{{ user.email }}</span>
       </div>
-    </nav>
-  {% endblock %}
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<div id="menu-items" class="hidden md:hidden">
+  <ul class="flex flex-col items-center space-y-4">
+    <li>
+      <a href="#" class="text-md font-medium transition-colors hover:text-gray-300">
+        Features
+      </a>
+    </li>
+    <li>
+      <a href="#" class="text-md font-medium transition-colors hover:text-gray-300">
+        Logout
+      </a>
+    </li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const mainNav = document.getElementById('main-nav');
+    const menuButton = document.getElementById('menu-button');
+    const menuItems = document.getElementById('menu-items');
+
+    menuButton.addEventListener('click', function () {
+      menuItems.classList.toggle('hidden');
+    });
+  });
+</script>
+
+<style>
+  a.active {
+    color: #8fb6ff;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var currentUrl = window.location.pathname;
+
+    // Select all navigation links
+    var navLinks = document.querySelectorAll(".nav-link");
+
+    // Loop through each link and add the 'active' class if the href matches the current URL
+    navLinks.forEach(function (link) {
+      if (link.getAttribute("href") === currentUrl) {
+        link.classList.add("active");
+      }
+    });
+  });
+</script>
+{% endblock %}
