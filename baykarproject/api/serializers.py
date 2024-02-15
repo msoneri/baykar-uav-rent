@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from app.models import UAV, UAVRental
 
+
 class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

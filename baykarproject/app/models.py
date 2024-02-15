@@ -39,6 +39,7 @@ class UAVRental(models.Model):
 
     def clean(self):
         # check if the UAV is already rented during the specified period
+        # remaining part is unimplemented
         if UAVRental.objects.filter(
             uav=self.uav,
             rent_end_date__gt=self.rent_start_date,

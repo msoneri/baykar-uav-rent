@@ -15,6 +15,7 @@ from django.core import validators
 from .serializers import RegisterUserSerializer, UserLoginSerializer, UAVSerializer, UAVRentalSerializer
 from app.models import UAV, UAVRental
 
+
 # Register user API view
 class UserRegistrationView(generics.CreateAPIView):
     serializer_class = RegisterUserSerializer
@@ -29,6 +30,7 @@ class UserRegistrationView(generics.CreateAPIView):
                 return Response({'message': 'This email address is already taken.'}, status=status.HTTP_400_BAD_REQUEST)
         else:    
             return Response({'message': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserLoginAPIView(generics.CreateAPIView):
     serializer_class = UserLoginSerializer
@@ -137,10 +139,8 @@ class UAVRentalViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-
         if not request.user.is_staff:
-            renter = serializer.validated_data.get('renter')
-            if renter != request.user:
+            if instance.renter != request.user:
                 return Response({"detail": "You do not have permission to delete a rental for another user."},
                                 status=status.HTTP_403_FORBIDDEN)
 

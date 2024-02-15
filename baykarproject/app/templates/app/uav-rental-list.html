@@ -21,7 +21,12 @@
 {% block content %}
 {% include "app/navbar.html" %}
 <div class="container mx-auto mt-8 bg-gray-50 text-gray-900">
-    <h2 class="text-2xl font-semibold m-4">Your Rented UAVs</h2>
+    <h2 class="text-2xl font-semibold m-4">
+        {% if user.is_staff %}
+        UAVs Rental Status
+        {% else %}
+        Your Rented UAVs
+        {% endif %}</h2>
     <div class="flex flex-col">
         <div class="w-full">
             <div class="p-4 border-b border-gray-200 shadow">
@@ -55,8 +60,8 @@
 
             <div class="form-group m-3">
                 <label for="modal_end_date" class="block text-sm font-medium mt-4">End Date:</label>
-                <input type="datetime-local" class="mt-1 p-2 w-full border rounded" id="modal_end_date" name="modal_end_date"
-                    style="background-color: #212d4a">
+                <input type="datetime-local" class="mt-1 p-2 w-full border rounded" id="modal_end_date"
+                    name="modal_end_date" style="background-color: #212d4a">
             </div>
 
             <input type="number" name="modal_renter" id="modal_renter" class="hidden" style="background-color: #212d4a">

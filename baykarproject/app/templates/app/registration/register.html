@@ -12,7 +12,9 @@ Sign Up
 
 {% block content %}
 <div class="relative py-3 sm:max-w-xl sm:mx-auto">
-    <div class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+    <div
+        class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
+    </div>
     <div class="relative px-4 py-10 shadow-lg sm:rounded-3xl sm:p-20" style="background-color: #212d4a;">
         <div class="max-w-md mx-auto">
             <div class="justify-content-center">
@@ -22,30 +24,56 @@ Sign Up
             <form id="registrationForm" class="divide-y divide-gray-200 text-gray-100">
                 <div class="py-8 text-base leading-6 space-y-4 sm:text-md sm:leading-7">
                     <div class="relative">
-                        <input autocomplete="off" id="first_name" style="background-color: #212d4a;" name="first_name" type="text" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400" placeholder="First Name" />
-                        <label for="email" class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">First Name</label>
+                        <input autocomplete="off" id="first_name" style="background-color: #212d4a;" name="first_name"
+                            type="text"
+                            class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400"
+                            placeholder="First Name" />
+                        <label for="email"
+                            class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">First
+                            Name</label>
                     </div>
                     <div class="relative">
-                        <input autocomplete="off" id="last_name" style="background-color: #212d4a;" name="last_name" type="text" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400" placeholder="Last Name" />
-                        <label for="email" class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Last Name</label>
+                        <input autocomplete="off" id="last_name" style="background-color: #212d4a;" name="last_name"
+                            type="text"
+                            class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400"
+                            placeholder="Last Name" />
+                        <label for="email"
+                            class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Last
+                            Name</label>
                     </div>
                     <div class="relative">
-                        <input autocomplete="off" id="email" style="background-color: #212d4a;" name="email" type="text" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400" placeholder="Email address" />
-                        <label for="email" class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Email Address</label>
+                        <input autocomplete="off" id="email" style="background-color: #212d4a;" name="email" type="text"
+                            class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400"
+                            placeholder="Email address" />
+                        <label for="email"
+                            class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Email
+                            Address</label>
                     </div>
                     <div class="relative">
-                        <input autocomplete="off" id="password" style="background-color: #212d4a;" name="password" type="password" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400" placeholder="Password" />
-                        <label for="password" class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Password</label>
+                        <input autocomplete="off" id="password" style="background-color: #212d4a;" name="password"
+                            type="password"
+                            class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400"
+                            placeholder="Password" />
+                        <label for="password"
+                            class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Password</label>
                     </div>
                     <div class="relative">
-                        <input autocomplete="off" id="confirm_password" style="background-color: #212d4a;" name="confirm_password" type="password" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400" placeholder="Password" />
-                        <label for="confirm_password" class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Confirm Password</label>
+                        <input autocomplete="off" id="confirm_password" style="background-color: #212d4a;"
+                            name="confirm_password" type="password"
+                            class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-400"
+                            placeholder="Password" />
+                        <label for="confirm_password"
+                            class="absolute left-0 -top-3.5 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-400 peer-focus:text-sm">Confirm
+                            Password</label>
                     </div>
                     <div class="relative">
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-4 py-1 transition-colors">Sign Up</button>
+                        <button type="submit"
+                            class="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-4 py-1 transition-colors">Sign
+                            Up</button>
                     </div>
                     <div class="mt-3 text-center">
-                        <p class="text-muted">Already have an account? <a href="{% url 'app:login' %}" class="font-weight-bold underline">Sign In</a></p>
+                        <p class="text-muted">Already have an account? <a href="{% url 'app:login' %}"
+                                class="font-weight-bold underline">Sign In</a></p>
                     </div>
                 </div>
 
@@ -60,64 +88,64 @@ Sign Up
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        const registerForm = document.getElementById('registrationForm');
-        const messageContainer = document.getElementById('messageContainer');
-        const messagesList = document.getElementById('messagesList');
-    
-        registerForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-    
-            const formData = new FormData(registerForm);
-            const password = formData.get('password');
-            const confirm_password = formData.get('confirm_password');
-    
-            if (password !== confirm_password) {
-                showMessage("Passwords don't match.", 'error');
-                return;
-            }
-    
-            const data = {
-                email: formData.get('email'),
-                first_name: formData.get('first_name'),
-                last_name: formData.get('last_name'),
-                password: password,
-                confirm_password: confirm_password
-            };
-    
-            try {
-                const response = await fetch('/api/register/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-    
-                if (response.ok) {    
-                    showMessage('Registration completed succesfully.', 'success');
-    
-                    setTimeout(() => {
-                        window.location.href = '/login';
-                    }, 1000);
-                } else {
-                    const errorData = await response.json();
-                    for (const field in errorData.message) {
-                        for (const errorDetail of errorData.message[field]) {
-                            showMessage(`${errorDetail}`, 'error');
-                        }
+<script>
+    const registerForm = document.getElementById('registrationForm');
+    const messageContainer = document.getElementById('messageContainer');
+    const messagesList = document.getElementById('messagesList');
+
+    registerForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(registerForm);
+        const password = formData.get('password');
+        const confirm_password = formData.get('confirm_password');
+
+        if (password !== confirm_password) {
+            showMessage("Passwords don't match.", 'error');
+            return;
+        }
+
+        const data = {
+            email: formData.get('email'),
+            first_name: formData.get('first_name'),
+            last_name: formData.get('last_name'),
+            password: password,
+            confirm_password: confirm_password
+        };
+
+        try {
+            const response = await fetch('/api/register/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                showMessage('Registration completed succesfully.', 'success');
+
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 1000);
+            } else {
+                const errorData = await response.json();
+                for (const field in errorData.message) {
+                    for (const errorDetail of errorData.message[field]) {
+                        showMessage(`${errorDetail}`, 'error');
                     }
                 }
-            } catch (error) {
-                console.error('Error during registration:', error);
-                showMessage('Registration failed.', 'error');
             }
-        });
-    
-        // Function to display messages
-        function showMessage(message, type) {
-            messagesList.innerHTML = `<li class="${type}">${message}</li>`;
-            messageContainer.style.display = 'block';
+        } catch (error) {
+            console.error('Error during registration:', error);
+            showMessage('Registration failed.', 'error');
         }
-    </script>
+    });
+
+    // Function to display messages
+    function showMessage(message, type) {
+        messagesList.innerHTML = `<li class="${type}">${message}</li>`;
+        messageContainer.style.display = 'block';
+    }
+</script>
 {% endblock %}

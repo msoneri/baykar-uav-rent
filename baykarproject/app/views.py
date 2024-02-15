@@ -6,23 +6,13 @@ import requests
 
 @login_required(login_url='/login/')
 def index(request):
-    
-    return render(request, 'app/index.html')
+    return redirect('app:uav_rental_list')
 
 # staff and user login 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('app:index')  
+        return redirect('app:uav_rental_list')
     return render(request, 'app/registration/login.html')
-
-
-# def admin_login(request):
-#     if request.user.is_authenticated:
-#         if request.user.is_staff:
-#             return redirect('app:uavs-list')  
-#         else:
-#             return redirect('app:user-rented-uav')
-#     return render(request, 'app/registration/admin-login.html')
 
 def register(request):
     if request.user.is_authenticated:
@@ -34,7 +24,7 @@ def logout_view(request):
     if request.method == 'POST':
         logout(request)
         return redirect('app:login')
-    return redirect('app:index')
+    return redirect('app:uav_rental_list')
 
 @staff_member_required(login_url='/login/')
 def uav_list_view(request):

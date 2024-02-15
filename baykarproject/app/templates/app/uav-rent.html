@@ -136,6 +136,7 @@
                 "uav": uav,
             },
             success: function (data, status) {
+                alert('Successfully rented.')
                 $('#dataTable').DataTable().ajax.reload();
                 $('#editModal').addClass('hidden');
             },
